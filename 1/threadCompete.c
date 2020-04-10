@@ -7,6 +7,7 @@ void *runner(void *param);
 
 int main(int argc, char *argv[])
 {
+    printf("作者：181110305董成相\n");
     int i;
     int scope;
     pthread_t tid[NUM_THREADS];
@@ -37,7 +38,29 @@ int main(int argc, char *argv[])
     }
 
     /* set the scheduling algorithm to PCS or SCS */
-    pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
+    //pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
+    pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
+
+    /* second inquire on the current scope */
+    if (pthread_attr_getscope(&attr, &scope) != 0)
+    {
+        fprintf(stderr, "Unable to get scheduling scope\n");
+    }
+    else
+    {
+        if (scope == PTHREAD_SCOPE_PROCESS)
+        {
+            printf("PTHREAD_SCOPE_PROCESS\n");
+        }
+        else if (scope == PTHREAD_SCOPE_SYSTEM)
+        {
+            printf("PTHREAD_SCOPE_SYSTEM\n");
+        }
+        else
+        {
+            fprintf(stderr, "Illegal scope value.\n");
+        }
+    }
 
     /* create the threads */
     for (int i = 0; i < NUM_THREADS; i++)
@@ -54,6 +77,6 @@ int main(int argc, char *argv[])
 
 void *runner(void *param)
 {
-    printf("runner running!\n");
+    printf("Do some thing!\n");
     pthread_exit(0);
 }
