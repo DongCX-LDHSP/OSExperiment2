@@ -3,7 +3,5 @@
 1. make -f makefile
 2. 修改 `2.h` 文件
 3. make -f makefile
-4. rm *.o myapp
+4. rm 2.o
 5. make -f makefile
-
-# Done
