@@ -20,11 +20,17 @@ struct msg
 
 int main()
 {
+    printf("作者：181110305董成相\n");
     int qid;
     int pid;
     int len;
     struct msg pmsg;
     sprintf(pmsg.msg_buf, "hello! this is: %d\n", getpid());
+
+    /* fork two process */
+    pid_t pid1 = fork();
+    pid_t pid2 = fork();
+
     len = strlen(pmsg.msg_buf);
     if ((qid = msgget(IPC_PRIVATE, IPC_CREAT | 0666) < 0))
     {
@@ -38,5 +44,4 @@ int main()
     }
     printf("successfully send a message to the queue: %d\n", qid);
     return 0;
-    
 }
