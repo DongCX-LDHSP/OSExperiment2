@@ -3,7 +3,11 @@
 3/mq
 3/test.c
 3/t
+3/mr
+3/ms
 4/2.o
 4/3.o
 4/main.o
 4/myapp
+testFork.c
+t
