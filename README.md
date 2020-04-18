@@ -34,6 +34,8 @@
 - https://www.cnblogs.com/LUO77/p/5816326.html
 - https://www.codetd.com/article/10658143 较为详细
 
+通过例子代码发现发送方和接收方的`qid`值是相同的。
+
 
 ## Make Utility
 
