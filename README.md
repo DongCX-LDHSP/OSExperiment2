@@ -32,7 +32,7 @@
 - 老师未将完整的代码给我们，需要我们自行上网查找资料，使用消息队列实现进程间的通信  
 参考链接：
     - https://www.cnblogs.com/LUO77/p/5816326.html
-    - https://www.codetd.com/article/10658143 较为详细
+    - https://www.codetd.com/article/10658143 较为详细，网页的打印版在./3/消息队列几个函数详解.pdf
 - 通过例子代码发现发送方和接收方的`qid`值是相同的。  
 - 之前只能运行一次的就会遇到`msgsnd: Invalid arguement`异常的原因是：`if语句中的条件`是一个赋值语句，是C语言的使用问题，如下所示：  
 `if ((qid = msgget((key_t)1234, IPC_CREAT | 0666)) < 0)`赋值语句外缺少一对括弧，添加之后便可解决那个异常
