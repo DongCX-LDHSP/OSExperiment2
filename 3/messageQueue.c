@@ -22,47 +22,48 @@ struct msg
 
 int main()
 {
-    printf("作者：181110305董成相\n");
+    printf("作者：181110305董成相\n\n");
     int qid;
     pid_t pid;
     struct msg pmsg;
 
-    pid = fork();
+    pid = fork();//生成一个子进程与父进程通信
 
-    if (qid = msgget((key_t)1234, IPC_CREAT | 0666) < 0)
+    if ((qid = msgget((key_t)1234, IPC_CREAT | 0666)) < 0)
     {
         perror("msgget\n");
         exit(1);
     }
-    printf("创建、打开的消息队列号是：%d\n", qid);
+
+    printf("The queue id is: %d\n", qid);
 
     if (pid == 0)
     {
-        sprintf(pmsg.msg_buf, "hello! this is: %d\n", getpid());
+        sprintf(pmsg.msg_buf, "Hello! This is child！ My parent's pid is : %d. And my pid is %d", getppid(), getpid());
         pmsg.msg_type = 1;
         if (msgsnd(qid, (void*)&pmsg, TXTLEN, 0) < 0)
         {
             perror("msgsnd\n");
             exit(1);
         }
-        printf("successfully send a message to the queue: %d\n", qid);
+        printf("\nSuccessfully send a message to the queue: %d\n\n", qid);
     }
 
-    if (pid < 0)
+    if (pid > 0)
     {
-        printf("Hello, I'm the parent!\n");
         pmsg.msg_type = 0;
         if (msgrcv(qid, (void*)&pmsg, TXTLEN, 0, 0) < 0)
         {
             perror("msgrcv\n");
             exit(1);
         }
-        printf("读取的消息是：%s\n", pmsg.msg_buf);
+        printf("Hello! I'm the parent. I revieved a message from my child that refers to \n\"%s\"\n", pmsg.msg_buf);
         if (msgctl(qid, IPC_RMID, NULL) < 0)
         {
             perror("msgctl\n");
             exit(1);
         }
+        printf("\nThe queue was deleted by parent process.\n");
     }
     return 0;
 }
