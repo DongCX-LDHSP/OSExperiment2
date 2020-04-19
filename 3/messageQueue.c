@@ -41,10 +41,9 @@ int main()
     {
         //写入待发送消息
         sprintf(pmsg.msg_buf, "Hello! This is child！ My parent's pid is : %d. And my pid is %d", getppid(), getpid());
-        //这个msg_type暂时有点迷
+        //msg_type的问题详见README.md文件解释
         pmsg.msg_type = 1;
         //接下来就是发送消息啦
-        //qid是指消息队列号，pmsg是消息结构体，TXLEN是消息的长度，0是指
         if (msgsnd(qid, (void*)&pmsg, TXTLEN, 0) < 0)
         {
             perror("msgsnd\n");
@@ -52,13 +51,12 @@ int main()
         }
         printf("\nChild successfully send a message to the queue: %d\n\n", qid);
     }
-
-    if (pid > 0)
+    else
     {
-        //这个msg_type暂时有点迷
-        pmsg.msg_type = 0;
+        //msg_type的问题详见README.md文件解释
+        pmsg.msg_type = 0;//这里实际上与发送方保持一致最为合适，也就是1，不过真正起作用的msgrcv()函数的第四个参数值
         //接收消息
-        if (msgrcv(qid, (void*)&pmsg, TXTLEN, 0, 0) < 0)
+        if (msgrcv(qid, (void*)&pmsg, TXTLEN, 1, 0) < 0)
         {
             perror("msgrcv\n");
             exit(1);
