@@ -6,7 +6,7 @@
 
 1. 调用`pthread_attr_getscope(&attr, &scope)`获取竞争范围并输出到控制台
 2. 使用`pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM)`强制将线程竞争范围修改为系统间，即：SCS
-3. 再次获取竞争范围并输出控制台
+3. 再次获取竞争范围并输出到控制台
 4. 运行程序，观察记录结果
 5. 使用`pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS)`强制将竞争范围修改为进程间，即：PCS
 6. 运行程序，观察记录结果，并与4中的结果进行比较
