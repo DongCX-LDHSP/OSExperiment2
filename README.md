@@ -8,7 +8,7 @@
 2. 使用`pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM)`强制将线程竞争范围修改为系统间，即：SCS
 3. 再次获取竞争范围并输出控制台
 4. 运行程序，观察记录结果
-5. 将2中的语句换为`pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS)`强制将竞争范围修改为进程间，即：PCS
+5. 使用`pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS)`强制将竞争范围修改为进程间，即：PCS
 6. 运行程序，观察记录结果，并与4中的结果进行比较
 
 ## Linux调度程序
@@ -34,7 +34,7 @@
     - https://www.cnblogs.com/LUO77/p/5816326.html
     - https://www.codetd.com/article/10658143 较为详细，网页的打印版在./3/消息队列几个函数详解.pdf
 - 通过例子代码发现发送方和接收方的`qid`值是相同的。  
-- 之前只能运行一次的就会遇到`msgsnd: Invalid arguement`异常的原因是：`if语句中的条件`是一个赋值语句，是C语言的使用问题，如下所示：  
+- 之前只能运行一次，再次运行就会遇到`msgsnd: Invalid arguement`异常的原因是：`if语句中的条件`是一个赋值语句，是C语言的使用问题，如下所示：  
 `if ((qid = msgget((key_t)1234, IPC_CREAT | 0666)) < 0)`赋值语句外缺少一对括弧，添加之后便可解决那个异常
 - 消息类型即消息结构体中的`msg_type`的含义，基于查找到的资料及运行效果进行总结如下：
     - 消息类型是发送方和接收方的一个约定，一般应相同，若不相同可能会有意想不到的结果
@@ -55,8 +55,9 @@
 
 这个实验使用了宏指令的形式，经过五步完成
 
-1. make -f makefile
-2. 修改 `b.h` 文件
-3. make -f makefile
-4. rm 2.o
-5. make -f makefile
+1. rm *.o myapp(若是已经运行过一次，则需执行该命令清理文件)
+2. make -f makefile
+3. 修改 `b.h` 文件
+4. make -f makefile
+5. rm 2.o
+6. make -f makefile
