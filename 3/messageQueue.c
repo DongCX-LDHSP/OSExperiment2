@@ -17,7 +17,6 @@ int main()
     int qid;
     pid_t pid;
     struct msg pmsg;
-
     //这里的赋值语句应当由一对括弧包裹，然后才能进行比较，不然就是赋值语句的返回值与0进行比较i
     if ((qid = msgget((key_t)1234, IPC_CREAT | 0666)) < 0)
     {
@@ -25,9 +24,7 @@ int main()
         exit(1);
     }
     printf("The queue id is: %d\n", qid);
-
     pid = fork();//生成一个子进程与父进程通信
-
     if (pid == 0)
     {
         //写入待发送消息
@@ -52,10 +49,8 @@ int main()
             perror("msgrcv\n");
             exit(1);
         }
-
         //输出消息
         printf("Hello! I'm the parent. I revieved a message from my child that is \n\"%s\"\n", pmsg.msg_buf);
-        
         //删除消息队列
         if (msgctl(qid, IPC_RMID, NULL) < 0)
         {
